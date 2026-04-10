@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Life Formula</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --board-color: #22302a;
+            --chalk-color: #ffffff;
+            --accent-color: #a5d6a7;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--chalk-color);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            transition: all 0.5s ease;
+        }
+
+        #blackboard {
+            width: 92%;
+            max-width: 850px;
+            padding: 40px;
+            background-color: var(--board-color);
+            border: 15px solid #4e342e;
+            border-radius: 4px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .motto {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.8;
+        }
+
+        .euler-identity {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        .result-container {
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            border: 1px dashed rgba(255,255,255,0.2);
+        }
+
+        #life-number {
+            font-size: 4.5rem;
+            font-weight: bold;
+            color: #ffeb3b;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        #generated-formula {
+            font-size: 1.1rem;
+            margin-top: 20px;
+            color: var(--accent-color);
+            font-style: italic;
+            min-height: 1.5em;
+        }
+
+        .controls {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        label { font-weight: bold; margin-bottom: 5px; display: block; }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            background: #333;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .btn-neon { background: #00f2ff; color: #000; }
+        .btn-classic { background: #81c784; color: #000; }
+        .btn-dark { background: #444; color: #fff; }
+
+        button:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+        .footer-note {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="blackboard">
+        <div class="motto">What Is Your Formula For Life?</div>
+        
+        <div class="euler-identity">
+            e<sup>iπ</sup> + 1 = 0
+        </div>
+
+        <div class="result-container">
+            <div id="life-number">?</div>
+            <div id="generated-formula">Enter your birth date to calculate...</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div>
+            <label for="birthDate">Select Your Date of Birth:</label>
+            <input type="date" id="birthDate" onchange="calculateLifeFormula()">
+        </div>
+        
+        <div class="btn-group">
+            <button class="btn-neon" onclick="setTheme('#000', '#0a192f', '#00f2ff')">NEON</button>
+            <button class="btn-classic" onclick="setTheme('#1a1a1a', '#22302a', '#fff')">CHALK</button>
+            <button class="btn-dark" onclick="setTheme('#212121', '#121212', '#90caf9')">SPACE</button>
+        </div>
+        
+        <button style="background: #ff9800; color: white;" onclick="window.print()">Download Your Identity</button>
+    </div>
+
+    <p class="footer-note">Every digit of your existence is part of the equation.</p>
+
+    <script>
+        function calculateLifeFormula() {
+            const dateInput = document.getElementById('birthDate').value;
+            if (!dateInput) return;
+
+            // 1. Calculate the sum of all digits in the date
+            // Example: 1995-10-25 -> 1+9+9+5+1+0+2+5 = 32
+            const digits = dateInput.replace(/\D/g, '');
+            let sum = 0;
+            for (let char of digits) {
+                sum += parseInt(char);
+            }
+
+            const display = document.getElementById('life-number');
+            const formulaField = document.getElementById('generated-formula');
+
+            display.innerText = sum;
+
+            // 2. Create a "pseudo-complex" scientific formula that equals the sum
+            // We use different templates to keep it interesting
+            const formulas = [
+                `f(life) = lim(x→${sum}) [x · (sin²θ + cos²θ)]`,
+                `f(life) = log₂(${Math.pow(2, sum)}) + (e^iπ + 1)`,
+                `f(life) = √(${sum * sum}) · ∫(dx) from 0 to 1`,
+                `f(life) = (${sum-10} + 10) · (Σ 1/2^n from 0 to ∞ / 2)`,
+                `f(life) = ∮ E·dA = ${sum} / ε₀`
+            ];
+
+            // Pick a random formula style
+            const randomFormula = formulas[Math.floor(Math.random() * formulas.length)];
+            formulaField.innerHTML = `Your Identity: ${randomFormula}`;
+        }
+
+        function setTheme(bg, board, text) {
+            document.documentElement.style.setProperty('--bg-color', bg);
+            document.documentElement.style.setProperty('--board-color', board);
+            document.documentElement.style.setProperty('--chalk-color', text);
+            document.documentElement.style.setProperty('--accent-color', text);
+        }
+    </script>
+</body>
+</html>
